@@ -5,7 +5,7 @@
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
-    "test": "node --import tsx --import ./src/register.ts ./examples/01_node/src/index.ts"
+    "dev:01_node": "node --import tsx --import ./src/register.ts ./examples/01_node/src/index.ts"
   },
   "private": true,
   "dependencies": {
