@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@llamaindex/tool": "workspace:*",
+    "openai": "^4.33.0"
+  }
+}
