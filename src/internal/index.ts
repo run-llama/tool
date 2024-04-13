@@ -1,5 +1,5 @@
 import { atom, createStore } from 'jotai/vanilla'
-import { ToolMetadata } from 'llamaindex'
+import type { ToolMetadata } from 'llamaindex'
 
 export type Info = {
   parameterMapping: Record<string, number>

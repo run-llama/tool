@@ -1,5 +1,5 @@
 import * as Tools from './index.llama'
-import { getTools, registerTools } from '@llamaindex/tool'
+import { convertTools, registerTools } from '@llamaindex/tool'
 import { OpenAI } from 'openai'
 import { inspect } from 'node:util'
 import { OpenAIAgent } from 'llamaindex'
@@ -14,7 +14,7 @@ const openai = new OpenAI()
         role: 'user',
         content: 'What\'s my current weather?'
       }],
-    tools: getTools('openai')
+    tools: convertTools('openai')
   })
 
   console.log('response:',
@@ -28,7 +28,7 @@ const openai = new OpenAI()
         role: 'user',
         content: 'What\'s the weather in London?'
       }],
-    tools: getTools('openai')
+    tools: convertTools('openai')
   })
 
   console.log('response:',
@@ -36,7 +36,7 @@ const openai = new OpenAI()
 }
 {
   const agent = new OpenAIAgent({
-    tools: getTools('llamaindex')
+    tools: convertTools('llamaindex')
   })
   const response = await agent.chat({
     message: 'What\'s my current weather?'

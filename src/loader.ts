@@ -1,5 +1,5 @@
 import type { LoadHook } from 'node:module'
-import {
+import type {
   JSONSchema7,
   JSONSchema7Definition,
   JSONSchema7TypeName

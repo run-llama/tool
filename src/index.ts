@@ -1,6 +1,7 @@
-import { ChatCompletionTool } from 'openai/resources/chat/completions'
-import { Info, store, toolMetadataAtom, toolsAtom } from './internal'
-import { BaseTool, ToolMetadata } from 'llamaindex'
+import type { ChatCompletionTool } from 'openai/resources/chat/completions'
+import { type Info, store, toolMetadataAtom, toolsAtom } from './internal'
+import type { BaseTool, ToolMetadata } from 'llamaindex'
+import { atom } from 'jotai/vanilla'
 
 export type {
   Info
@@ -25,45 +26,54 @@ export function registerTools (
   )
 }
 
-export function getTools (
+const openaiToolsAtom = atom<ChatCompletionTool[]>(get => {
+  const metadata = get(toolMetadataAtom)
+  return metadata.map(([metadata]) => ({
+    type: 'function',
+    function: {
+      parameters: metadata.parameters,
+      name: metadata.name,
+      description: metadata.description
+    }
+  }))
+})
+
+const llamaindexToolsAtom = atom<BaseTool[]>(get => {
+  const metadata = get(toolMetadataAtom)
+  const fns = get(toolsAtom)
+  return metadata.map(([metadata, info]) => ({
+    call: (input: Record<string, unknown>) => {
+      const args = Object.entries(info.parameterMapping).
+        reduce((arr, [name, idx]) => {
+          arr[idx] = input[name]
+          return arr
+        }, [] as unknown[])
+      console.debug('find function:', metadata.name, args)
+      const fn = fns[metadata.name]
+      if (!fn) {
+        throw new Error(`Cannot find function to call: ${metadata.name}`)
+      }
+      return fn(...args)
+    },
+    metadata
+  }))
+})
+
+export function convertTools (
   format: 'openai'
 ): ChatCompletionTool[];
-export function getTools (
+export function convertTools (
   format: 'llamaindex'
 ): BaseTool[];
-export function getTools (
+export function convertTools (
   format: string
 ): ChatCompletionTool[] | BaseTool[] {
   switch (format) {
     case 'openai': {
-      return store.get(toolMetadataAtom).
-        map<ChatCompletionTool>(([metadata]) => ({
-          type: 'function',
-          function: {
-            parameters: metadata.parameters,
-            name: metadata.name,
-            description: metadata.description
-          }
-        }))
+      return store.get(openaiToolsAtom)
     }
     case 'llamaindex': {
-      const fns = store.get(toolsAtom)
-      return store.get(toolMetadataAtom).map(([metadata, info]) => ({
-        call: (input: Record<string, unknown>) => {
-          const args = Object.entries(info.parameterMapping).
-            reduce((arr, [name, idx]) => {
-              arr[idx] = input[name]
-              return arr
-            }, [] as unknown[])
-          console.debug('find function:', metadata.name, args)
-          const fn = fns[metadata.name]
-          if (!fn) {
-            throw new Error(`Cannot find function to call: ${metadata.name}`)
-          }
-          return fn(...args)
-        },
-        metadata
-      }))
+      return store.get(llamaindexToolsAtom)
     }
   }
   throw new Error(`Unknown format: ${format}`)
