@@ -48,7 +48,6 @@ const llamaindexToolsAtom = atom<BaseTool[]>(get => {
           arr[idx] = input[name]
           return arr
         }, [] as unknown[])
-      console.debug('find function:', metadata.name, args)
       const fn = fns[metadata.name]
       if (!fn) {
         throw new Error(`Cannot find function to call: ${metadata.name}`)

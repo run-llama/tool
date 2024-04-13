@@ -13,7 +13,6 @@ import type {
 } from '@swc/types'
 import { parseRoot } from './compiler'
 import type { ToolMetadata } from 'llamaindex'
-import { inspect } from 'node:util'
 import type { Info } from '.'
 
 export const load: LoadHook = async (url, context, nextLoad) => {
@@ -54,6 +53,7 @@ export const load: LoadHook = async (url, context, nextLoad) => {
           node.expression.callee.value === 'registerTools'
       )
       if (rest.length !== 0) {
+        // todo: support register multiple times
         console.warn('registerTools should be only called once')
       }
       if (callExpression && callExpression.expression.type ===
@@ -125,8 +125,6 @@ export const load: LoadHook = async (url, context, nextLoad) => {
                   }
                 })
               })
-              console.log(
-                inspect(metadata, { depth: Number.MAX_VALUE, colors: true }))
               output.source = `\ninjectMetadata(${JSON.stringify(
                   metadata)}, ${JSON.stringify(info)});\n` +
                 output.source
