@@ -13,9 +13,18 @@
 
 ```ts
 // @file: index.llama.ts
+
+// you can write JSDoc to improve the tool's performance
+/**
+ * @name getWeather
+ * @description Get the weather of a city
+ * @param city City name
+ * @returns The weather in the city
+ */
 export function getWeather(city: string) {
   return `The weather in ${city} is sunny.`
 }
+// you don't need to worry about the shcema with different llm tools
 export function getTemperature(city: string) {
   return `The temperature in ${city} is 25°C.`
 }
