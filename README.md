@@ -1,5 +1,7 @@
 # @llamaindex/tool
 
+> ⚠️Haven't published yet, you can try it locally.
+
 > Transform JS function for LLM tool call.
 
 - ✅OpenAI
