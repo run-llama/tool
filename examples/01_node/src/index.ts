@@ -1,4 +1,4 @@
-import * as Tools from './index.llama'
+import * as Tools from './index.llama.js'
 import { convertTools, registerTools } from '@llamaindex/tool'
 import { OpenAI } from 'openai'
 import { inspect } from 'node:util'

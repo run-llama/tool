@@ -1,26 +1,10 @@
 {
-  "name": "@llamaindex/tool",
+  "name": "@llamaindex/root",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
-  "main": "./src/index.ts",
   "scripts": {
+    "build": "bunchee",
     "dev:01_node": "node --import tsx --import ./src/register.ts ./examples/01_node/src/index.ts"
   },
-  "private": true,
-  "dependencies": {
-    "@swc/core": "^1.4.13",
-    "jotai": "^2.8.0",
-    "openai": "^4.33.0",
-    "ts-json-schema-generator": "^1.5.1",
-    "typedoc": "^0.25.13",
-    "typescript": "^5.4.5"
-  },
-  "devDependencies": {
-    "@swc/types": "^0.1.6",
-    "@types/json-schema": "^7.0.15",
-    "llamaindex": "^0.2.7",
-    "tsx": "^4.7.2",
-    "vitest": "^1.5.0"
-  }
+  "private": true
 }

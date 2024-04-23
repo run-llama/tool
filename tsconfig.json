@@ -9,6 +9,16 @@
     "noUncheckedIndexedAccess": true,
     "verbatimModuleSyntax": true,
     "strictNullChecks": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "incremental": true,
+    "composite": true,
+  },
+  "references": [
+    {
+      "path": "./packages/tool"
+    },
+    {
+      "path": "./examples/01_node"
+    }
+  ]
 }

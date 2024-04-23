@@ -1,4 +1,4 @@
-import { getWeather } from './utils'
+import { getWeather } from './utils.js'
 
 /**
  * Get current location
