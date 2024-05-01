@@ -13,7 +13,7 @@ import type {
 } from '@swc/types'
 import { parseRoot } from './compiler'
 import type { ToolMetadata } from 'llamaindex'
-import type { Info } from '.'
+import { type Info, injectMetadata } from '.'
 
 export const load: LoadHook = async (url, context, nextLoad) => {
   const output = await nextLoad(url, context)

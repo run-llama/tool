@@ -1,6 +1,6 @@
 import type { ChatCompletionTool } from 'openai/resources/chat/completions'
 import { type Info, store, toolMetadataAtom, toolsAtom } from './internal'
-import type { BaseTool, ToolMetadata } from 'llamaindex'
+import type { BaseToolWithCall, ToolMetadata } from 'llamaindex'
 import { atom } from 'jotai/vanilla'
 
 export type {
@@ -38,7 +38,7 @@ const openaiToolsAtom = atom<ChatCompletionTool[]>(get => {
   }))
 })
 
-const llamaindexToolsAtom = atom<BaseTool[]>(get => {
+const llamaindexToolsAtom = atom<BaseToolWithCall[]>(get => {
   const metadata = get(toolMetadataAtom)
   const fns = get(toolsAtom)
   return metadata.map(([metadata, info]) => ({
@@ -48,7 +48,7 @@ const llamaindexToolsAtom = atom<BaseTool[]>(get => {
           arr[idx] = input[name]
           return arr
         }, [] as unknown[])
-      const fn = fns[metadata.name]
+      const fn = fns[metadata.name] ?? info.originalFunction;
       if (!fn) {
         throw new Error(`Cannot find function to call: ${metadata.name}`)
       }
@@ -63,10 +63,10 @@ export function convertTools (
 ): ChatCompletionTool[];
 export function convertTools (
   format: 'llamaindex'
-): BaseTool[];
+): BaseToolWithCall[];
 export function convertTools (
   format: string
-): ChatCompletionTool[] | BaseTool[] {
+): ChatCompletionTool[] | BaseToolWithCall[] {
   switch (format) {
     case 'openai': {
       return store.get(openaiToolsAtom)
