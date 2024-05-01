@@ -2,6 +2,7 @@ import { atom, createStore } from 'jotai/vanilla'
 import type { ToolMetadata } from 'llamaindex'
 
 export type Info = {
+  originalFunction?: (...args: any[]) => any
   parameterMapping: Record<string, number>
 }
 

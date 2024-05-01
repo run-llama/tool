@@ -9,6 +9,8 @@ import type {
 } from 'json-schema'
 import type { Info } from './internal'
 import type { ToolMetadata } from 'llamaindex'
+import { parse } from '@swc/core'
+import type { ExportDeclaration, ImportDeclaration } from '@swc/types'
 
 export interface Options {
 
@@ -17,11 +19,12 @@ export interface Options {
 const roots: string[] = []
 
 const name = 'llama-index-tool'
+const isToolRegex = /tool\.tsx?$/
 
 export const unpluginFactory: UnpluginFactory<Options | undefined> = options => ({
   name,
   transformInclude (id) {
-    const isTool =  /tool\.tsx?$/.test(id)
+    const isTool =  isToolRegex.test(id)
     if (isTool) {
       roots.push(id)
     }
@@ -41,9 +44,11 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = options => 
           required: [] as string[]
         } satisfies JSONSchema7
         const info: Info = {
+          originalFunction: undefined,
           parameterMapping: {}
         }
         children.forEach(child => {
+          info.originalFunction = child.name as any;
           const metadata: ToolMetadata = {
             name: child.name,
             description: '',
@@ -68,8 +73,11 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = options => 
               }
             })
           })
+          const infoJSON = JSON.stringify(info)
+            // remove quotes from `originalFunction` value
+            .replace(/"originalFunction":"(.*?)"/g, '"originalFunction":$1')
           code = `injectMetadata(${JSON.stringify(
-              metadata)}, ${JSON.stringify(info)});\n` +
+              metadata)}, ${infoJSON});\n` +
             code
         })
       }
@@ -96,5 +104,3 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = options => 
 export const unplugin = /* #__PURE__ */ createUnplugin(unpluginFactory)
 
 export default unplugin
-
-export const webpackPlugin = createWebpackPlugin(unpluginFactory)

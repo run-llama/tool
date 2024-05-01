@@ -1,11 +1,6 @@
-import { webpackPlugin } from '@llamaindex/tool/plugin'
+import { withNext } from '@llamaindex/tool/next'
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  webpack: (config) => {
-    config.plugins.push(webpackPlugin())
-    return config
-  }
-};
+const nextConfig = {};
 
-export default nextConfig;
+export default withNext(nextConfig);

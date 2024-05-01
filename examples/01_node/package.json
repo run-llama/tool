@@ -2,7 +2,7 @@
   "type": "module",
   "dependencies": {
     "@llamaindex/tool": "workspace:*",
-    "llamaindex": "^0.2.10",
+    "llamaindex": "^0.3.0",
     "openai": "^4.33.0"
   },
   "scripts": {

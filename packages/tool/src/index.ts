@@ -48,7 +48,7 @@ const llamaindexToolsAtom = atom<BaseToolWithCall[]>(get => {
           arr[idx] = input[name]
           return arr
         }, [] as unknown[])
-      const fn = fns[metadata.name]
+      const fn = fns[metadata.name] ?? info.originalFunction;
       if (!fn) {
         throw new Error(`Cannot find function to call: ${metadata.name}`)
       }

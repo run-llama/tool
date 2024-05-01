@@ -2,9 +2,5 @@
   "name": "@llamaindex/root",
   "type": "module",
   "version": "1.0.0",
-  "scripts": {
-    "build": "bunchee",
-    "dev:01_node": "node --import tsx --import ./src/register.ts ./examples/01_node/src/index.ts"
-  },
   "private": true
 }

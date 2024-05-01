@@ -1,16 +1,20 @@
 {
   "name": "@llamaindex/tool",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.js"
     },
-    "./plugin": {
-      "types": "./dist/plugin.d.ts",
-      "default": "./dist/plugin.js"
+    "./next": {
+      "types": "./dist/next.d.ts",
+      "import": "./dist/next.js",
+      "require": "./dist/next.cjs",
+      "default": "./dist/next.js"
     },
     "./loader": "./dist/loader.js",
     "./register": "./dist/register.js"
@@ -37,7 +41,8 @@
     "@swc/types": "^0.1.6",
     "@types/json-schema": "^7.0.15",
     "bunchee": "^5.1.2",
-    "llamaindex": "^0.2.10",
+    "llamaindex": "^0.3.0",
+    "next": "14.2.3",
     "tsx": "^4.7.2",
     "vitest": "^1.5.0",
     "webpack": "^5.91.0"
